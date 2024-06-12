@@ -1,118 +1,129 @@
 public class AdvanceSorting {
-    public static int partition(int arr[], int si, int ei) {
-        int pivot = arr[ei];
-        int i = si-1;
+    // Merge Sort
+    public static void merge(int arr[], int left, int mid, int right) {
+        int mergedArr[] = new int[right - left + 1];
+        int x = 0; // merged array index
 
-        for(int j=si; j<ei; j++) {
+        int idx1 = left;
+        int idx2 = mid+1;
+
+        while(idx1 <= mid && idx2 <= right) {
+            if(arr[idx1] <= arr[idx2]) {
+                mergedArr[x] = arr[idx1];
+                x++; idx1++;
+            }
+            else {
+                mergedArr[x] = arr[idx2];
+                x++; idx2++;
+            }
+        }
+
+        while(idx1 <= mid) {
+            mergedArr[x] = arr[idx1];
+            x++; idx1++;
+        }
+
+        while(idx2 <= right) {
+            mergedArr[x] = arr[idx2];
+            x++; idx2++;
+        }
+
+        for(int i=left; i<=right; i++) {
+            arr[i] = mergedArr[i-left];
+        }
+    }
+
+    public static void mergeSort(int arr[], int left, int right) {
+        // Base Case
+        if(left >= right) {
+            return;
+        }
+
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid+1, right);
+
+        merge(arr, left, mid, right);
+    }
+
+    // Quick Sort
+
+    public static int partiton(int arr[], int low, int high) {
+        int pivot = arr[high];
+        int i = low-1;
+
+        for(int j=low; j<high; j++) {
             if(arr[j] <= pivot) {
                 i++;
-                // swap
-                int temp = arr[j];
-                arr[j] = arr[i];
-                arr[i] = temp;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
             }
         }
         i++;
-        int temp = pivot;
-        arr[ei] = arr[i];
+        int temp = arr[high];
+        arr[high] = arr[i];
         arr[i] = temp;
         return i;
     }
-    public static void quickSort(int arr[], int si, int ei) {
-        if(si >= ei) {
+
+    public static void quickSort(int arr[], int low, int high) {
+        // base case
+        if(low >= high) {
+            return;
+        } 
+
+        int pIdx = partiton(arr, low, high);
+
+        quickSort(arr, low, pIdx-1);
+        quickSort(arr, pIdx+1, high);
+    }
+
+    public static void recBubbleSort(int arr[], int n) {
+        if (n == 0) {
             return;
         }
 
-        int pIdx = partition(arr, si, ei); // partiton idx
-
-        quickSort(arr, si, pIdx-1);
-        quickSort(arr, pIdx+1, ei);
-    }
-    
-    public static void merge(int arr[], int start, int mid, int end) {
-        int merged[] = new int[end -  start + 1]; // dono k merge karna hai
-        int idx = 0; // merged Idx
-
-        int i=start, j=mid+1;
-
-        while(i <= mid && j <= end) {
-            if(arr[i] <= arr[j]) {
-                merged[idx] = arr[i];
-                idx++; i++;
-            }
-            else {
-                merged[idx] = arr[j];
-                idx++; j++;
-            }
-        }
-
-        while(i <= mid){
-            merged[idx] = arr[i];
-            idx++; i++;
-        }
-        
-        while(j <= end) {
-            merged[idx] = arr[j];
-            idx++; j++;
-        }
-
-        for(idx=0, i=start; idx<merged.length; idx++, i++) {
-            arr[i] = merged[idx]; 
-        }
-    }
-    public static void mergeSort(int arr[], int start, int end) {
-        if(start >= end) {
-            return;
-        }
-
-        int mid = start + (end-start) / 2;
-
-        mergeSort(arr, start, mid);
-        mergeSort(arr, mid+1, end);
-        merge(arr, start, mid, end);
-    }
-
-    public static void bubbleSortRec(int arr[], int i, int n) {
-        if(i==n) {
-            return;
-        }
-
-        for(int j=0; j<n; j++) {
-            if(arr[j] > arr[j+1]) {
+        for (int j = 0; j < arr.length - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
                 int temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
             }
         }
 
-        bubbleSortRec(arr, i+1, n);
+        recBubbleSort(arr, n - 1);
     }
 
-    public static void insertionSort(int arr[], int i, int n) {
-        if(i==n) {
+    public static void recInsertionSort(int arr[], int i, int n) {
+        if(i == n) {
             return;
         }
-        
+
         int temp = arr[i];
         int j=i-1;
 
-        while(j>=0 && arr[j] > temp) {
+        while(j>=0 && arr[j] >= temp) {
             arr[j+1] = arr[j];
             j--;
         }
-        arr[j+1] = temp;    
 
-        insertionSort(arr, i+1, n);
+        arr[j+1] = temp;
+
+        recInsertionSort(arr, i+1, n);
     }
-    public static void main(String[] args) {
-        int arr[] = {13,46,24,52,20,9};
-        // mergeSort(arr, 0, arr.length-1);
-        // bubbleSortRec(arr, 0, arr.length-1);
-        // insertionSort(arr, 1, arr.length);
-        quickSort(arr, 0, arr.length-1);
+    public static void main(String args[]) {
+        int arr[] = {11, 2, 1, 12, 5, 3, 4, 7};
 
-        for(int i=0; i<arr.length; i++) {
-            System.out.print(arr[i] + " ");
+        // mergeSort(arr, 0, arr.length-1);
+        // quickSort(arr, 0, arr.length-1);
+        // recBubbleSort(arr, arr.length);
+        // recInsertionSort(arr, 1, arr.length);
+
+        for(int i : arr) {
+            System.out.print(i + " ");
         }
+
     }
 }
