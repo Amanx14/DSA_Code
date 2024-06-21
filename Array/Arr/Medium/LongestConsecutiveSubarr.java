@@ -51,6 +51,7 @@ public class LongestConsecutiveSubarr {
         }
 
         int longest = 1;
+        
         for(Integer i : set) {
             if(!set.contains(i - 1)) {
                 int count = 1;
