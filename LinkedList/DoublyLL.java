@@ -67,6 +67,32 @@ public class DoublyLL {
         return head;
     }
 
+    public static Node deleteAtPos(Node head, int pos) {
+        if(head == null || head.next == null) {
+            return null;
+        }
+
+        if(pos==1) {
+            head = head.next;
+            return head;
+        }
+
+        Node temp = head;
+
+        int i=1; // 1 2 3 4 5
+
+        while(i < pos-1) {
+            i++;
+            temp = temp.next;
+        }
+
+        if(temp.next != null) {
+            temp.next = temp.next.next;
+        }
+
+        return head;
+    }
+
     public static Node reverseDLL(Node head) {
         Node prev = null;
         Node curr = head;
@@ -99,6 +125,8 @@ public class DoublyLL {
         }
         System.out.print("null");
     }
+
+
     
     public static Node middleNode(Node head) {
         Node slow = head;
@@ -111,6 +139,8 @@ public class DoublyLL {
 
         return slow;
     }
+
+
 
     public static void main(String[] args) {
         int arr[] = { 1, 2, 3, 4, 5 };
