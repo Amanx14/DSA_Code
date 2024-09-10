@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Code {
+public class SmallestDivisorToGiveThreshold {
     public static int findDivisorSum(int arr[], int divisor) {
         int divSum = 0;
 
@@ -56,8 +56,8 @@ public class Code {
         return ans;
     }    
     public static void main(String[] args) {
-        // int arr[] = {1, 2, 3, 4, 5} , limit = 8;
-        int arr[] = {8, 4, 2, 3}, limit = 10;
+        int arr[] = {1, 2, 3, 4, 5} , limit = 8;
+        // int arr[] = {8, 4, 2, 3}, limit = 10;
         System.out.println(smallestDivisorOptimal(arr, limit));
     }
 }

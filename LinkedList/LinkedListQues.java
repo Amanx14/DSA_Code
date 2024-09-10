@@ -1,3 +1,5 @@
+import java.lang.classfile.components.ClassPrinter.ListNode;
+
 class Node {
     int data;
     Node next;
@@ -314,6 +316,40 @@ public class LinkedListQues {
         }
 
         // Return head
+        return head;
+    }
+
+    // insert GCD between two nodes
+    public static int calcGCD(int n1, int n2) {
+        int gcd = 0;
+        for(int i=1; i<=Math.min(n1, n2); i++) {
+            if(n1 % i == 0 && n2 % i == 0) {
+                gcd = i; 
+            }
+        }
+
+        return gcd;
+    }
+    
+    public ListNode insertGreatestCommonDivisors(ListNode head) {
+        if(head.next == null) {
+            return head;
+        }
+
+        ListNode head1 = head;
+        ListNode head2 = head.next;
+
+        while(head2 != null) {
+            int GCD = calcGCD(head1.val, head2.val);
+            ListNode newNode = new ListNode(GCD);
+
+            newNode.next = head2;
+            head1.next = newNode;
+
+            head1 = head2;
+            head2 = head2.next;
+        }
+
         return head;
     }
 
